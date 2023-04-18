@@ -37,9 +37,16 @@ HEIGHT = disp.height
 
 img = Image.new('RGB', (WIDTH, HEIGHT), color=(0, 0, 0))
 draw = ImageDraw.Draw(img)
+draw.rectangle((0, 0, WIDTH, HEIGHT), (0, 0, 0))
 
 font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 30)
+_, _, x, y = draw.multiline_textbbox((0, 0), MESSAGE, font=font, align="center")
+if x > WIDTH or y > HEIGHT:
+    print(f"Message too big for display! ({x}x{y} > {WIDTH}x{HEIGHT})")
+    exit(1)
 
-draw.rectangle((0, 0, WIDTH, HEIGHT), (0, 0, 0))
-draw.multiline_text((5, 3), MESSAGE, fill=(255, 255, 255), font=font, align="center")
+x = (WIDTH - x) // 2
+y = (HEIGHT - y) // 2
+
+draw.multiline_text((x, y), MESSAGE, fill=(215, 215, 215), font=font, align="center")
 disp.display(img)
