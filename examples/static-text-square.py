@@ -9,16 +9,11 @@ import ST7789
 
 MESSAGE = "Hello World! How are you today?"
 
-print("""
-static-test-square.py - Display static text on square screen.
-
-Usage: {} "<message>"
-""".format(sys.argv[0]))
-
 try:
     MESSAGE = sys.argv[1]
 except IndexError:
-    pass
+    print("""Usage: {} "<message>" """.format(sys.argv[0]))
+    exit(1)
 
 # Create ST7789 LCD display class.
 
@@ -44,11 +39,6 @@ img = Image.new('RGB', (WIDTH, HEIGHT), color=(0, 0, 0))
 draw = ImageDraw.Draw(img)
 
 font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 30)
-
-size_x, size_y = draw.textsize(MESSAGE, font)
-
-text_x = WIDTH
-text_y = (HEIGHT - size_y) // 2
 
 draw.rectangle((0, 0, WIDTH, HEIGHT), (0, 0, 0))
 draw.multiline_text((5, 3), MESSAGE, fill=(255, 255, 255), font=font, align="center")
